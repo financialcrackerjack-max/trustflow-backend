@@ -73,6 +73,26 @@ const EnvSchema = z
       .optional()
       .describe('Contract deployment ledger to start ingestion from'),
 
+    // Stellar timeout configuration
+    STELLAR_TX_VALIDITY_SECONDS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .default(60)
+      .describe('Validity window (in seconds) for release transactions handed to the wallet'),
+    STELLAR_RPC_TIMEOUT_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .default(10000)
+      .describe('Request timeout (ms) for Horizon/Soroban RPC client operations'),
+    STELLAR_HEALTH_CHECK_TIMEOUT_MS: z.coerce
+      .number()
+      .int()
+      .positive()
+      .default(5000)
+      .describe('Timeout (ms) for Stellar endpoint health checks'),
+
     // Redis Configuration
     REDIS_URL: z
       .string()

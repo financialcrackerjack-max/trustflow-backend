@@ -5,6 +5,7 @@ import { EventProcessorService, SorobanEvent, ProcessedEvent } from './event-pro
 import { getStellarConfig } from '../stellar/stellar.config';
 import { mapWithConcurrency } from '../common/concurrency';
 import { config } from '../config/env.config';
+import { buildSorobanServer } from '../stellar/soroban.helper';
 
 @Injectable()
 export class EventIngestionService implements OnModuleInit, OnModuleDestroy {
@@ -23,7 +24,7 @@ export class EventIngestionService implements OnModuleInit, OnModuleDestroy {
   ) {}
 
   onModuleInit() {
-    this.rpcServer = new SorobanRpc.Server(getStellarConfig().sorobanRpcUrl);
+    this.rpcServer = buildSorobanServer(getStellarConfig().sorobanRpcUrl);
     this.logger.log('EventIngestionService initialized');
   }
 

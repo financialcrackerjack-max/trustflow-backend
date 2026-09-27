@@ -63,8 +63,11 @@ export class HealthService {
 
   private async checkStellar(): Promise<boolean> {
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), config.STELLAR_HEALTH_CHECK_TIMEOUT_MS);
       const url = config.STELLAR_HORIZON_URL;
-      const r = await fetch(`${url}/`);
+      const r = await fetch(`${url}/`, { signal: controller.signal });
+      clearTimeout(timeoutId);
       return r.ok;
     } catch {
       return false;
